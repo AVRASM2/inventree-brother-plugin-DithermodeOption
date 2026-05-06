@@ -185,10 +185,10 @@ class BrotherLabelPrinterDriver(LabelPrinterBaseDriver):
         label_image = self.render_to_png(label, item)
 
         # Read settings
-        model = machine.get_setting("MODEL", "D")
-        ip_address = machine.get_setting("IP_ADDRESS", "D")
-        usb_device = machine.get_setting("USB_DEVICE", "D")
-        media_type = machine.get_setting("LABEL", "D")
+        model = machine.get_setting("MODEL", cache=False, backup_value="PT-P750W")
+        ip_address = machine.get_setting("IP_ADDRESS", cache=False, backup_value="")
+        usb_device = machine.get_setting("USB_DEVICE", cache=False, backup_value="")
+        media_type = machine.get_setting("LABEL", cache=False, backup_value="12")
 
         # Get specifications of media type
         media_specs = None
@@ -196,7 +196,7 @@ class BrotherLabelPrinterDriver(LabelPrinterBaseDriver):
             if label_specs.identifier == media_type:
                 media_specs = label_specs
 
-        rotation = int(machine.get_setting("ROTATION", "D")) + 90
+        rotation = int(machine.get_setting("ROTATION", cache=False, backup_value="0")) + 90
         rotation = rotation % 360
 
         if rotation in [90, 180, 270]:
@@ -239,12 +239,12 @@ class BrotherLabelPrinterDriver(LabelPrinterBaseDriver):
             "qlr": printer,
             "images": [printable_image],
             "label": media_type,
-            "cut": machine.get_setting("AUTO_CUT", "D"),
+            "cut": machine.get_setting("AUTO_CUT", cache=False, backup_value=True),
             "rotate": 0,
-            "compress": machine.get_setting("COMPRESSION", "D"),
-            "hq": machine.get_setting("HQ", "D"),
+            "compress": machine.get_setting("COMPRESSION", cache=False, backup_value=False),
+            "hq": machine.get_setting("HQ", cache=False, backup_value=True),
             "red": red,
-            "dither": machine.get_setting("DITHER", "D"),
+            "dither": machine.get_setting("DITHER", cache=False, backup_value=False)
         }
 
         instructions = convert(**params)
