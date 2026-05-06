@@ -244,8 +244,10 @@ class BrotherLabelPrinterDriver(LabelPrinterBaseDriver):
             "compress": machine.get_setting("COMPRESSION", "D"),
             "hq": machine.get_setting("HQ", "D"),
             "red": red,
-            "dither": machine.get_setting("DITHER", "D"),
+            "dither": machine.get_setting("DITHER", "D")
         }
+        # machine.get_setting(key: str, config_type_str: Literal['M', 'D'], cache: bool = False)
+        # config_type_str: Either "M" (machine scoped settings) or "D" (driver scoped settings)
 
         instructions = convert(**params)
 
